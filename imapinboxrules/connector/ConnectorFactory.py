@@ -1,4 +1,4 @@
-from imapinboxrules.exceptions.connector import ConnectorNotFoundException
+from imapinboxrules.exceptions.connector import ConnectorNotFound
 
 from .imap import ImapConnector
 
@@ -11,6 +11,6 @@ class ConnectorFactory:
   @classmethod
   def get_connector(cls, name):
     if name not in cls.connectors:
-      raise ConnectorNotFoundException(name)
+      raise ConnectorNotFound(name)
 
     return cls.connectors[name]

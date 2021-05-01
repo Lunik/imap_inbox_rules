@@ -17,3 +17,9 @@ Python tools to organize IMAP inbox
 ## Built with
 
 [Python imaplib](https://docs.python.org/3/library/imaplib.html)
+
+## Tested with
+
+[GitHub action](https://fr.github.com/features/actions)
+[CodeCov](https://codecov.io)
+[GreenMail](https://greenmail-mail-test.github.io/greenmail)
