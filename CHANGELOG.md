@@ -10,6 +10,10 @@ Pull Request #1
 - [IMAP Connector] Allow to authenticate to IMAP servers
 - [IMAP Connector] Allow to list mailboxes
 - [IMAP Connector] Allow to list sub-mailboxes
+- [PyTest] Add unitest
+- [CodeCov] Add coverage checks
+- [PyLint] Add lint tests
+- [CodeQL] Add vulnerability check
 
 ### Bug fixes:
 - N/A
