@@ -3,7 +3,7 @@
 ## v0.1.0
 
 ### Enhancements:
-- N/A
+- [GitHub Action] Add badges in README.md (#5)
 
 ### Bug fixes:
 - N/A
