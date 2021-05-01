@@ -4,6 +4,7 @@
 
 ### Enhancements:
 - [GitHub Action] Add badges in README.md (#5)
+- [GitHub Action] Disable commit count when merging on master (#6)
 
 ### Bug fixes:
 - N/A
