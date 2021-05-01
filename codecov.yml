@@ -1,0 +1,34 @@
+codecov:
+  bot: github-action
+  require_ci_to_pass: yes
+
+coverage:
+  precision: 2
+  round: down
+  range: "90...100"
+  status:
+    project:
+      default:
+        # basic
+        target: auto
+        threshold: 0%
+        flags:
+          - unit
+        paths:
+          - "imapinboxrules"
+
+parsers:
+  gcov:
+    branch_detection:
+      conditional: yes
+      loop: yes
+      method: no
+      macro: no
+
+comment:
+  layout: "reach,diff,flags,files,footer"
+  behavior: default
+  require_changes: no
+
+github_checks:
+  annotations: true
