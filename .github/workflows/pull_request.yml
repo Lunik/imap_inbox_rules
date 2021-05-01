@@ -1,0 +1,34 @@
+
+name: Pull Request validation
+
+on:
+  pull_request:
+    branches: [ master, develop ]
+
+jobs:
+  changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Fetch target branch
+        run: |
+          /usr/bin/git fetch origin ${GITHUB_BASE_REF}
+
+      - name: Check if Changelog file has been updated
+        run: |
+          test $(/usr/bin/git diff origin/${GITHUB_BASE_REF} -- CHANGELOG.md | wc -l | xargs) -ne 0
+
+  check-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Fetch branches
+        run: |
+          /usr/bin/git fetch origin ${GITHUB_BASE_REF}
+          /usr/bin/git fetch origin ${GITHUB_HEAD_REF}
+
+      - name: Check only one commit exists
+        run: |
+          test $(/usr/bin/git log --oneline "origin/${GITHUB_HEAD_REF}" \^"origin/${GITHUB_BASE_REF}" | wc -l | xargs) -eq 1
