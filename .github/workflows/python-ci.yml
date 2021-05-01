@@ -15,23 +15,40 @@ jobs:
     strategy:
       matrix:
         python_version: ['3.x']
+        java_verion: ['11']
         os: [ubuntu-latest, macOS-latest]
 
     name: Test with Python ${{ matrix.python_version }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
 
+    env:
+      TEST_IMAP_HOST: "127.0.0.1"
+      TEST_IMAP_PORT: "3143"
+      TEST_IMAP_API_HOST: "127.0.0.1"
+      TEST_IMAP_API_PORT: "8080"
+      TEST_IMAP_USERNAME: "user"
+      TEST_IMAP_PASSWORD: "password"
+
     steps:
     - uses: actions/checkout@v2
+    - uses: actions/setup-java@v2
+      with:
+        distribution: 'adopt'
+        java-version: ${{ matrix.java_verion }}
     - name: Setup Python
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python_version }}
 
-    - name: Setup env
+    - name: Donwload lightweight IMAP server
       env:
-        TEST_IMAP_HOST: ${{ secrets.TEST_IMAP_HOST }}
-        TEST_IMAP_PASSWORD: ${{ secrets.TEST_IMAP_PASSWORD }}
-        TEST_IMAP_USERNAME: ${{ secrets.TEST_IMAP_USERNAME }}
+        GREENMAIL_VERSION: "1.6.3"
+      run: |
+        wget \
+          https://repo1.maven.org/maven2/com/icegreen/greenmail-standalone/${GREENMAIL_VERSION}/greenmail-standalone-${GREENMAIL_VERSION}.jar \
+          -O greenmail-standalone.jar
+
+    - name: Setup env
       run: |
         echo "PYTHONPATH=$(pwd)" >> $GITHUB_ENV
         printenv > $(pwd)/.env
@@ -48,6 +65,36 @@ jobs:
       run: |
         pylint imapinboxrules/
 
+    - name: Start IMAP server
+      run: |
+        java \
+          -Dgreenmail.imap.hostname=${TEST_IMAP_HOST} \
+          -Dgreenmail.imap.port=${TEST_IMAP_PORT} \
+          -Dgreenmail.api.hostname=${TEST_IMAP_API_HOST} \
+          -Dgreenmail.api.port=${TEST_IMAP_API_PORT} \
+          -Dgreenmail.users=${TEST_IMAP_USERNAME}:${TEST_IMAP_PASSWORD} \
+          -jar greenmail-standalone.jar &
+
+        echo $! > imap-server.pid
+
+        timeout=60
+        while true; do
+          echo "Wait for IMAP server to start"
+          running=$(curl -sSL http://${TEST_IMAP_API_HOST}:${TEST_IMAP_API_PORT}/api/service/readiness | grep "Service running" | wc -l)
+          if [ "$running" -eq "1" ]; then
+            break
+          fi
+          timeout=$((timeout-1))
+          if [ "$timeout" -eq "0" ]; then
+            exit 1
+          fi
+          sleep 1s
+        done
+
+    - name: Init IMAP server data
+      run: |
+        python imapinboxrules/tests/init/setup.py
+
     - name: Test app
       run: |
         pytest \
@@ -55,6 +102,10 @@ jobs:
           --cov-branch \
           --cov-report term-missing \
           --cov-report xml
+
+    - name: Stop IMAP server
+      run: |
+        kill $(cat imap-server.pid)
 
     - uses: codecov/codecov-action@v1
       with:
