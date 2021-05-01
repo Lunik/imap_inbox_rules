@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## v0.1.0
+
+### Enhancements:
+- N/A
+
+### Bug fixes:
+- N/A
+
+### Documentation:
+- N/A
+
 ## v0.0.1
 
 Pull Request #1
