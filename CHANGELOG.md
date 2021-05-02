@@ -13,6 +13,7 @@
 ### Documentation:
 - Move documentation in [it's own directory](documentation/) (#7)
 - [LICENSE] Add GPL3 license (#8)
+- [Codecov] Update link to Codecov in README.md (#10)
 
 ## v0.0.1
 
