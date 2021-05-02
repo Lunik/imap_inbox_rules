@@ -10,7 +10,7 @@
 - N/A
 
 ### Documentation:
-- N/A
+- Move documentation in [it's own directory](documentation/) (#7)
 
 ## v0.0.1
 
