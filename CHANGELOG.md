@@ -5,6 +5,7 @@
 ### Enhancements:
 - [GitHub Action] Add badges in README.md (#5)
 - [GitHub Action] Disable commit count when merging on master (#6)
+- [GitHub Action] Block merge on master if there are "Merge commit" present (#9)
 
 ### Bug fixes:
 - N/A
