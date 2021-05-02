@@ -12,7 +12,7 @@ Python tools to organize IMAP inbox
 
 ## Coverage
 
-[![codecov](https://codecov.io/gh/Lunik/imap_inbox_rules/branch/master/graphs/tree.svg?token=1OBCJMJ3IY)
+[![codecov](https://codecov.io/gh/Lunik/imap_inbox_rules/branch/master/graphs/tree.svg?token=1OBCJMJ3IY)](https://codecov.io/gh/Lunik/imap_inbox_rules/branch/master)
 
 ## Built with
 
