@@ -8,37 +8,7 @@ Python tools to organize IMAP inbox
 
 ## Usage
 
-### Initiate connector
-
-```python
-from imapinboxrules.connector import ConnectorFactory
-
-connector = ConnectorFactory.get_connector('imap')(host="imap.gmail.com")
-
-connector.login(
-  user="my.username@gmail.com",
-  password="my_secret_password")
-```
-
-### List mailboxes
-
-List all mailboxes from root :
-```python
-mailboxes = connector.list_mailbox()
-
-for mailbox in mailboxes:
-  print(mailbox.name)
-```
-
-List sub-mailboxes :
-```python
-mailboxes = connector.list_mailbox()[1].list_mailbox()
-
-for mailbox in mailboxes:
-  print(mailbox.name)
-```
-
-For advanced usage read [imaplib documentation on `list` method](https://docs.python.org/3/library/imaplib.html#imaplib.IMAP4.list)
+[Documentation](documentation/)
 
 ## Coverage
 
