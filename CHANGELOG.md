@@ -11,6 +11,7 @@
 
 ### Documentation:
 - Move documentation in [it's own directory](documentation/) (#7)
+- [LICENSE] Add GPL3 license (#8)
 
 ## v0.0.1
 
