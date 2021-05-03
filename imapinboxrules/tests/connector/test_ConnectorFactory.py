@@ -2,7 +2,7 @@ import pytest
 
 from imapinboxrules.connector import ConnectorFactory
 from imapinboxrules.connector.imap import ImapConnector
-from imapinboxrules.exceptions.connector import ConnectorNotFoundException
+from imapinboxrules.exceptions.connector import ConnectorNotFound
 
 class TestClassConnectorFactory:
 
@@ -13,5 +13,5 @@ class TestClassConnectorFactory:
 
 
   def test_get_invalid_connector(self):
-    with pytest.raises(ConnectorNotFoundException):
+    with pytest.raises(ConnectorNotFound):
       connector = ConnectorFactory.get_connector('invalid')

@@ -3,6 +3,7 @@ import re
 from imapinboxrules.utils.connector import require_connector
 
 from .ImapMailboxAttributes import ImapMailboxAttributes
+from .ImapMail import ImapMail
 
 class ImapMailbox:
 
@@ -10,6 +11,7 @@ class ImapMailbox:
 
   location = ""
   delimiter = "/"
+  full_path = ""
 
   has_children = False
   is_marked = False
@@ -44,13 +46,14 @@ class ImapMailbox:
 
   @staticmethod
   def from_bytes(bytes):
-    parsed = re.search(r'\((?P<attributes>[^)]+)\) "?(?P<delimiter>[^"]+)"? "?(?P<path>[^"]+)"?', bytes.decode())
+    parsed = re.search(r'\((?P<attributes>[^)]*)\) "?(?P<delimiter>[^"]+)"? "?(?P<path>[^"]+)"?', bytes.decode())
 
     name, location = ImapMailbox.__parse_path(parsed.group('delimiter'), parsed.group('path'))
 
     imap_mailbox = ImapMailbox(name)
     imap_mailbox.location = location
     imap_mailbox.delimiter = parsed.group('delimiter')
+    imap_mailbox.full_path = parsed.group('path')
 
     for attr, value in ImapMailbox.__parse_attributes(parsed.group('attributes')).items():
       setattr(imap_mailbox, attr, value)
@@ -67,4 +70,21 @@ class ImapMailbox:
 
   @require_connector
   def list_mailbox(self, **kwargs):
-    return self.connector.list_mailbox(directory=self.delimiter.join([self.location, self.name]), **kwargs)
+    return self.connector.list_mailbox(directory=self.full_path, **kwargs)
+
+  @require_connector
+  def select(self, readonly=False):
+    self.connector.select_mailbox(mailbox=self.full_path, readonly=readonly)
+
+  @property
+  @require_connector
+  def count_mail(self):
+    mails = self.connector.search_mail(None, "ALL")
+
+    return len(mails)
+
+  @require_connector
+  def search_mail(self, charset=None, criterion=["ALL"]):
+    mails = self.connector.search_mail(charset, *criterion)
+
+    return [ImapMail.from_id_with_connector(self.connector, el) for el in mails]

@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 from imapinboxrules.model.imap import ImapMailbox
 from imapinboxrules.connector import ConnectorFactory
-from imapinboxrules.exceptions.model.imap import ImapMailboxWithoutConnector
+from imapinboxrules.exceptions.connector import ObjectWithoutConnector
 
 class TestClassImapMailbox:
 
@@ -14,7 +14,7 @@ class TestClassImapMailbox:
 
     connector = ConnectorFactory.get_connector('imap')
 
-    self.connector = connector(host=os.environ.get('TEST_IMAP_HOST'))
+    self.connector = connector(ssl=False, host=os.environ.get('TEST_IMAP_HOST'), port=os.environ.get('TEST_IMAP_PORT'))
 
     self.connector.login(
       user=os.environ.get('TEST_IMAP_USERNAME'),
@@ -87,7 +87,7 @@ class TestClassImapMailbox:
   def test_list_mailbox_without_connector(self):
     mailbox = ImapMailbox.from_bytes(b'(\\HasNoChildren \\Marked) "/" "INBOX"')
 
-    with pytest.raises(ImapMailboxWithoutConnector):
+    with pytest.raises(ObjectWithoutConnector):
         mailbox.list_mailbox()
 
 
@@ -98,26 +98,50 @@ class TestClassImapMailbox:
 
     assert len(mailboxes) > 0
 
-    assert mailboxes[0].name == "GitHub"
-    assert mailboxes[0].location == ""
+    assert mailboxes[0].name == "CI"
+    assert mailboxes[0].location == "GitHub"
 
-    assert mailboxes[1].name == "CI"
-    assert mailboxes[1].location == "GitHub"
-
-    assert mailboxes[2].name == "Actions"
-    assert mailboxes[2].location == "GitHub/CI"
+    assert mailboxes[1].name == "Actions"
+    assert mailboxes[1].location == "GitHub.CI"
 
   def test_list_mailbox_from_mailbox(self):
     mailbox = ImapMailbox.from_bytes_with_connector(self.connector, b'(\\HasNoChildren \\Marked) "/" "GitHub"')
 
     mailboxes = mailbox.list_mailbox()
 
-    mailboxes = mailboxes[1].list_mailbox()
+    mailboxes = mailboxes[0].list_mailbox()
 
     assert len(mailboxes) > 0
 
-    assert mailboxes[0].name == "CI"
-    assert mailboxes[0].location == "GitHub"
+    assert mailboxes[0].name == "Actions"
+    assert mailboxes[0].location == "GitHub.CI"
 
-    assert mailboxes[1].name == "Actions"
-    assert mailboxes[1].location == "GitHub/CI"
+  def test_select_mailbox(self):
+    mailbox = ImapMailbox.from_bytes_with_connector(self.connector, b'(\\HasNoChildren \\Marked) "/" "GitHub"')
+
+    mailbox.select()
+
+  def test_count_mail(self):
+    mailbox = ImapMailbox.from_bytes_with_connector(self.connector, b'(\\HasNoChildren \\Marked) "/" "GitHub"')
+
+    mailbox.select()
+
+    assert mailbox.count_mail == 3
+
+  def test_search_mail(self):
+    mailbox = ImapMailbox.from_bytes_with_connector(self.connector, b'(\\HasNoChildren \\Marked) "/" "GitHub"')
+
+    mailbox.select()
+
+    mails = mailbox.search_mail(charset=None, criterion=["(FROM \"noreply@github.com\")"])
+
+    assert len(mails) == 1
+
+  def test_search_mail_unkown(self):
+    mailbox = ImapMailbox.from_bytes_with_connector(self.connector, b'(\\HasNoChildren \\Marked) "/" "GitHub"')
+
+    mailbox.select()
+
+    mails = mailbox.search_mail(charset=None, criterion=["(FROM \"unknown@invalid.local\")"])
+
+    assert len(mails) == 0

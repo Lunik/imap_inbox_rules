@@ -1,47 +1,25 @@
 # IMAP inbox Rules
 
 [![codecov](https://codecov.io/gh/Lunik/imap_inbox_rules/branch/master/graph/badge.svg?token=1OBCJMJ3IY)](https://codecov.io/gh/Lunik/imap_inbox_rules)
+[![CodeQL](https://github.com/Lunik/imap_inbox_rules/actions/workflows/codeql-analysis.yml/badge.svg?branch=master)](https://github.com/Lunik/imap_inbox_rules/actions/workflows/codeql-analysis.yml)
+[![Python CI](https://github.com/Lunik/imap_inbox_rules/actions/workflows/python-ci.yml/badge.svg?branch=master)](https://github.com/Lunik/imap_inbox_rules/actions/workflows/python-ci.yml)
 
 Python tools to organize IMAP inbox
 
 ## Usage
 
-### Initiate connector
-
-```python
-from imapinboxrules.connector import ConnectorFactory
-
-connector = ConnectorFactory.get_connector('imap')(host="imap.gmail.com")
-
-connector.login(
-  user="my.username@gmail.com",
-  password="my_secret_password")
-```
-
-### List mailboxes
-
-List all mailboxes from root :
-```python
-mailboxes = connector.list_mailbox()
-
-for mailbox in mailboxes:
-  print(mailbox.name)
-```
-
-List sub-mailboxes :
-```python
-mailboxes = connector.list_mailbox()[1].list_mailbox()
-
-for mailbox in mailboxes:
-  print(mailbox.name)
-```
-
-For advanced usage read [imaplib documentation on `list` method](https://docs.python.org/3/library/imaplib.html#imaplib.IMAP4.list)
+[Documentation](documentation/)
 
 ## Coverage
 
-[![codecov](https://codecov.io/gh/Lunik/imap_inbox_rules/branch/master/graphs/tree.svg?token=1OBCJMJ3IY)
+[![codecov](https://codecov.io/gh/Lunik/imap_inbox_rules/branch/master/graphs/tree.svg?token=1OBCJMJ3IY)](https://codecov.io/gh/Lunik/imap_inbox_rules/branch/master)
 
 ## Built with
 
 [Python imaplib](https://docs.python.org/3/library/imaplib.html)
+
+## Tested with
+
+[GitHub action](https://fr.github.com/features/actions)
+[CodeCov](https://codecov.io)
+[GreenMail](https://greenmail-mail-test.github.io/greenmail)
