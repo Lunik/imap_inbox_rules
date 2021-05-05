@@ -19,7 +19,7 @@ pytest: test_requirements
 				&& open htmlcov/index.html
 
 pylint:
-				pylint imapinboxrules/
+				pylint tests/ imapinboxrules/
 
 imap_server: start_imap_server init_imap_server
 

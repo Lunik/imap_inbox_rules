@@ -14,4 +14,4 @@ class TestClassConnectorFactory:
 
   def test_get_invalid_connector(self):
     with pytest.raises(ConnectorNotFound):
-      connector = ConnectorFactory.get_connector('invalid')
+      ConnectorFactory.get_connector('invalid')
