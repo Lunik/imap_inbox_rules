@@ -3,6 +3,22 @@
 ## v0.1.0
 
 ### Enhancements:
+- [Coverage] Replace CodeCov with SonarCloud
+- [SonarCloud] Add QA scan
+- [SonarCloud] Add coverage
+- [SonarCloud] Add vulnerability scan
+- [SonarCloud] Add quality gate
+
+### Bug fixes:
+- N/A
+
+### Documentation:
+- [SonarCloud] Add badges
+- [CodeCov] Remove all references to the tool
+
+## v0.1.0
+
+### Enhancements:
 - [GitHub Action] Add badges in README.md (#5)
 - [GitHub Action] Disable commit count when merging on master (#6)
 - [GitHub Action] Block merge on master if there are "Merge commit" present (#9)

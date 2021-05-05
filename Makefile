@@ -15,6 +15,7 @@ pytest: test_requirements
 				  --cov-branch \
 				  --cov-report term-missing \
 				  --cov-report html \
+				  --cov-report xml \
 				&& open htmlcov/index.html
 
 pylint:
