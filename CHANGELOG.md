@@ -10,7 +10,7 @@
 - [SonarCloud] Add quality gate
 
 ### Bug fixes:
-- N/A
+- [CodeQL] Add autobuild step
 
 ### Documentation:
 - [SonarCloud] Add badges
