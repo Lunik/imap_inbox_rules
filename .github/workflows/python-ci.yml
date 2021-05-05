@@ -115,3 +115,11 @@ jobs:
         name: github-action
         fail_ci_if_error: false
         verbose: true
+
+    - name: Run codacy-coverage-reporter
+      uses: codacy/codacy-coverage-reporter-action@v1
+      with:
+        project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+        # or
+        # api-token: ${{ secrets.CODACY_API_TOKEN }}
+        coverage-reports: coverage.xml
