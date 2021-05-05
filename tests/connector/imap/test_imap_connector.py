@@ -1,20 +1,24 @@
-import pytest
 import os
+import pytest
 
 from dotenv import load_dotenv
 
 from imapinboxrules.connector.imap import ImapConnector
 from imapinboxrules.model.imap import ImapMailbox
 from imapinboxrules.exceptions.connector import ConnectorError
-from imapinboxrules.exceptions.mailbox import MailboxNotFound
 from imapinboxrules.exceptions.model.imap import ImapMailNotFound
 
 class TestClassImapConnector:
 
-  def setup_method(self, method):
+  connector = None
+
+  def setup_method(self):
     load_dotenv()
 
-    self.connector = ImapConnector(ssl=False, host=os.environ.get('TEST_IMAP_HOST'), port=os.environ.get('TEST_IMAP_PORT'))
+    self.connector = ImapConnector(
+      ssl=False,
+      host=os.environ.get('TEST_IMAP_HOST'),
+      port=os.environ.get('TEST_IMAP_PORT'))
 
     self.connector.login(
       user=os.environ.get('TEST_IMAP_USERNAME'),
@@ -69,27 +73,27 @@ class TestClassImapConnector:
 
   def test_search_mail(self):
     self.connector.select_mailbox(mailbox="GitHub")
-    
+
     mails = self.connector.search_mail(None, "ALL")
 
     assert mails == ['1', '2', '3']
 
   def test_search_mail_empty(self):
     self.connector.select_mailbox(mailbox="GitHub.Wiki")
-    
+
     mails = self.connector.search_mail(None, "ALL")
 
     assert mails == []
 
   def test_fetch_mail(self):
     self.connector.select_mailbox(mailbox="GitHub")
-    
+
     raw_mail = self.connector.fetch_mail("1", "(RFC822)")
 
     assert len(raw_mail) > 0
 
   def test_fetch_mail_notfound(self):
     self.connector.select_mailbox(mailbox="GitHub")
-    
+
     with pytest.raises(ImapMailNotFound):
       self.connector.fetch_mail("99", "(RFC822)")

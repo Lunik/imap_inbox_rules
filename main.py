@@ -22,15 +22,8 @@ mailbox = mailboxes[1]
 
 mailbox.select()
 
-#for mail in mailbox.search_mail():
-#  mail.load()
-#  mail.header("Subject")
-#  print(mail.body("text/html"))
-#  print(mail.body("text/plain"))
-
-mails = mailbox.search_mail()
-
-mails[1].load()
-
-#print(mails[1].body("text/html"))
-print(mails[1].body("text/plain"))
+for mail in mailbox.search_mail():
+  mail.load()
+  print("\n\n======== {} =========\n\n".format(mail.header("Subject")))
+  print(mail.body("text/html"))
+  #print(mail.body("text/plain"))

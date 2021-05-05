@@ -1,10 +1,9 @@
-import pytest
 
-from imapinboxrules.model.imap.ImapMailboxAttributes import ImapMailboxAttributes
+from imapinboxrules.model.imap.imap_mailbox_attributes import ImapMailboxAttributes
 
 class TestClassImapMailboxAttributes:
 
-  
+
   def test_has_children(self):
 
     assert ImapMailboxAttributes.has_children("\\HasChildren")
@@ -17,7 +16,7 @@ class TestClassImapMailboxAttributes:
 
     assert not ImapMailboxAttributes.has_children("")
 
-  
+
   def test_has_not_children(self):
 
     assert ImapMailboxAttributes.has_not_children("\\HasNoChildren")
@@ -32,7 +31,7 @@ class TestClassImapMailboxAttributes:
 
     assert ImapMailboxAttributes.has_not_children("\\Noinferiors")
 
-  
+
   def test_is_marked(self):
 
     assert ImapMailboxAttributes.is_marked("\\Marked")
@@ -44,7 +43,7 @@ class TestClassImapMailboxAttributes:
 
     assert not ImapMailboxAttributes.is_marked("")
 
-  
+
   def test_is_not_marked(self):
 
     assert ImapMailboxAttributes.is_not_marked("\\Unmarked")
@@ -56,7 +55,7 @@ class TestClassImapMailboxAttributes:
 
     assert not ImapMailboxAttributes.is_not_marked("")
 
-  
+
   def test_is_not_selectable(self):
     assert ImapMailboxAttributes.is_not_selectable("\\Noselect")
     assert ImapMailboxAttributes.is_not_selectable("\\Noselect \\HasChildren")
@@ -65,7 +64,7 @@ class TestClassImapMailboxAttributes:
     assert not ImapMailboxAttributes.is_not_selectable("")
     assert not ImapMailboxAttributes.is_not_selectable("\\HasChildren")
 
-  
+
   def test_is_selectable(self):
     assert ImapMailboxAttributes.is_selectable("")
     assert ImapMailboxAttributes.is_selectable("\\HasChildren")
@@ -74,7 +73,7 @@ class TestClassImapMailboxAttributes:
     assert not ImapMailboxAttributes.is_selectable("\\Noselect")
     assert not ImapMailboxAttributes.is_selectable("\\HasChildren \\Noselect")
 
-  
+
   def test_is_sent(self):
     assert ImapMailboxAttributes.is_sent("\\Sent")
     assert ImapMailboxAttributes.is_sent("\\Sent \\HasChildren")
@@ -83,7 +82,7 @@ class TestClassImapMailboxAttributes:
     assert not ImapMailboxAttributes.is_sent("")
     assert not ImapMailboxAttributes.is_sent("\\HasChildren")
 
-  
+
   def test_is_spam(self):
     assert ImapMailboxAttributes.is_spam("\\Spam")
     assert ImapMailboxAttributes.is_spam("\\Spam \\HasChildren")
@@ -98,7 +97,7 @@ class TestClassImapMailboxAttributes:
     assert not ImapMailboxAttributes.is_spam("")
     assert not ImapMailboxAttributes.is_spam("\\HasChildren")
 
-  
+
   def test_is_draft(self):
     assert ImapMailboxAttributes.is_draft("\\Drafts")
     assert ImapMailboxAttributes.is_draft("\\Drafts \\HasChildren")
@@ -113,7 +112,7 @@ class TestClassImapMailboxAttributes:
     assert not ImapMailboxAttributes.is_draft("")
     assert not ImapMailboxAttributes.is_draft("\\HasChildren")
 
-  
+
   def test_is_trash(self):
     assert ImapMailboxAttributes.is_trash("\\Trash")
     assert ImapMailboxAttributes.is_trash("\\Trash \\HasChildren")

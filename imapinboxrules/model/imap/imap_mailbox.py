@@ -2,8 +2,8 @@ import re
 
 from imapinboxrules.utils.connector import require_connector
 
-from .ImapMailboxAttributes import ImapMailboxAttributes
-from .ImapMail import ImapMail
+from .imap_mailbox_attributes import ImapMailboxAttributes
+from .imap_mail import ImapMail
 
 class ImapMailbox:
 

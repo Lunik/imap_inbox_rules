@@ -8,6 +8,7 @@
 - [SonarCloud] Add coverage
 - [SonarCloud] Add vulnerability scan
 - [SonarCloud] Add quality gate
+- [SonarCloud] Improve code smell
 
 ### Bug fixes:
 - [CodeQL] Add autobuild step

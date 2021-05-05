@@ -1,1 +1,1 @@
-from .ImapMailbox import ImapMailbox
+from .imap_mailbox import ImapMailbox

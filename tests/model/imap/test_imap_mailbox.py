@@ -1,5 +1,5 @@
-import pytest
 import os
+import pytest
 
 from dotenv import load_dotenv
 
@@ -9,12 +9,17 @@ from imapinboxrules.exceptions.connector import ObjectWithoutConnector
 
 class TestClassImapMailbox:
 
-  def setup_method(self, method):
+  connector = None
+
+  def setup_method(self):
     load_dotenv()
 
     connector = ConnectorFactory.get_connector('imap')
 
-    self.connector = connector(ssl=False, host=os.environ.get('TEST_IMAP_HOST'), port=os.environ.get('TEST_IMAP_PORT'))
+    self.connector = connector(
+        ssl=False,
+        host=os.environ.get('TEST_IMAP_HOST'),
+        port=os.environ.get('TEST_IMAP_PORT'))
 
     self.connector.login(
       user=os.environ.get('TEST_IMAP_USERNAME'),
@@ -40,14 +45,17 @@ class TestClassImapMailbox:
     assert not mailbox.is_trash
 
   def test_from_bytes_connector(self):
-    mailbox = ImapMailbox.from_bytes_with_connector(self.connector, b'(\\HasNoChildren \\Marked) "/" "INBOX"')
+    mailbox = ImapMailbox.from_bytes_with_connector(
+        self.connector,
+        b'(\\HasNoChildren \\Marked) "/" "INBOX"')
 
     assert mailbox.__class__ is ImapMailbox
     assert mailbox.connector == self.connector
 
 
   def test_from_bytes_subfolder(self):
-    mailbox = ImapMailbox.from_bytes(b'(\\HasNoChildren \\Sent) "/" "MyFolder/MySubFolder/MyTestFolder"')
+    mailbox = ImapMailbox.from_bytes(
+        b'(\\HasNoChildren \\Sent) "/" "MyFolder/MySubFolder/MyTestFolder"')
 
     assert mailbox.__class__ is ImapMailbox
 
@@ -66,7 +74,8 @@ class TestClassImapMailbox:
     assert not mailbox.is_trash
 
   def test_from_bytes_exotic_delimiter(self):
-    mailbox = ImapMailbox.from_bytes(b'(\\HasNoChildren \\Noselect \\Trash) "@" "MyFolder@MySubFolder@MyTestFolder"')
+    mailbox = ImapMailbox.from_bytes(
+        b'(\\HasNoChildren \\Noselect \\Trash) "@" "MyFolder@MySubFolder@MyTestFolder"')
 
     assert mailbox.__class__ is ImapMailbox
 
@@ -85,14 +94,17 @@ class TestClassImapMailbox:
     assert mailbox.is_trash
 
   def test_list_mailbox_without_connector(self):
-    mailbox = ImapMailbox.from_bytes(b'(\\HasNoChildren \\Marked) "/" "INBOX"')
+    mailbox = ImapMailbox.from_bytes(
+      b'(\\HasNoChildren \\Marked) "/" "INBOX"')
 
     with pytest.raises(ObjectWithoutConnector):
-        mailbox.list_mailbox()
+      mailbox.list_mailbox()
 
 
   def test_list_mailbox(self):
-    mailbox = ImapMailbox.from_bytes_with_connector(self.connector, b'(\\HasNoChildren \\Marked) "/" "GitHub"')
+    mailbox = ImapMailbox.from_bytes_with_connector(
+      self.connector,
+      b'(\\HasNoChildren \\Marked) "/" "GitHub"')
 
     mailboxes = mailbox.list_mailbox()
 
@@ -105,7 +117,9 @@ class TestClassImapMailbox:
     assert mailboxes[1].location == "GitHub.CI"
 
   def test_list_mailbox_from_mailbox(self):
-    mailbox = ImapMailbox.from_bytes_with_connector(self.connector, b'(\\HasNoChildren \\Marked) "/" "GitHub"')
+    mailbox = ImapMailbox.from_bytes_with_connector(
+      self.connector,
+      b'(\\HasNoChildren \\Marked) "/" "GitHub"')
 
     mailboxes = mailbox.list_mailbox()
 
@@ -117,31 +131,43 @@ class TestClassImapMailbox:
     assert mailboxes[0].location == "GitHub.CI"
 
   def test_select_mailbox(self):
-    mailbox = ImapMailbox.from_bytes_with_connector(self.connector, b'(\\HasNoChildren \\Marked) "/" "GitHub"')
+    mailbox = ImapMailbox.from_bytes_with_connector(
+      self.connector,
+      b'(\\HasNoChildren \\Marked) "/" "GitHub"')
 
     mailbox.select()
 
   def test_count_mail(self):
-    mailbox = ImapMailbox.from_bytes_with_connector(self.connector, b'(\\HasNoChildren \\Marked) "/" "GitHub"')
+    mailbox = ImapMailbox.from_bytes_with_connector(
+      self.connector,
+      b'(\\HasNoChildren \\Marked) "/" "GitHub"')
 
     mailbox.select()
 
     assert mailbox.count_mail == 3
 
   def test_search_mail(self):
-    mailbox = ImapMailbox.from_bytes_with_connector(self.connector, b'(\\HasNoChildren \\Marked) "/" "GitHub"')
+    mailbox = ImapMailbox.from_bytes_with_connector(
+      self.connector,
+      b'(\\HasNoChildren \\Marked) "/" "GitHub"')
 
     mailbox.select()
 
-    mails = mailbox.search_mail(charset=None, criterion=["(FROM \"noreply@github.com\")"])
+    mails = mailbox.search_mail(
+      charset=None,
+      criterion=["(FROM \"noreply@github.com\")"])
 
     assert len(mails) == 1
 
   def test_search_mail_unkown(self):
-    mailbox = ImapMailbox.from_bytes_with_connector(self.connector, b'(\\HasNoChildren \\Marked) "/" "GitHub"')
+    mailbox = ImapMailbox.from_bytes_with_connector(
+      self.connector,
+      b'(\\HasNoChildren \\Marked) "/" "GitHub"')
 
     mailbox.select()
 
-    mails = mailbox.search_mail(charset=None, criterion=["(FROM \"unknown@invalid.local\")"])
+    mails = mailbox.search_mail(
+      charset=None,
+      criterion=["(FROM \"unknown@invalid.local\")"])
 
     assert len(mails) == 0
