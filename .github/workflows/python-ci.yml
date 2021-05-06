@@ -6,6 +6,9 @@ name: Python CI
 on:
   pull_request:
     branches: [ master, develop ]
+    paths-ignore:
+      - '**/*.md'
+      - '**/*.txt'
 
   # Manually running a workflow
   workflow_dispatch:
