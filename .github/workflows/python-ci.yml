@@ -6,6 +6,9 @@ name: Python CI
 on:
   pull_request:
     branches: [ master, develop ]
+    paths-ignore:
+      - '**/*.md'
+      - '**/*.txt'
 
   # Manually running a workflow
   workflow_dispatch:
@@ -16,7 +19,7 @@ jobs:
       matrix:
         python_version: ['3.x']
         java_verion: ['11']
-        os: [ubuntu-latest, macOS-latest]
+        os: [ubuntu-latest]
 
     name: Test with Python ${{ matrix.python_version }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
@@ -31,6 +34,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with:
+          fetch-depth: 0
     - uses: actions/setup-java@v2
       with:
         distribution: 'adopt'
@@ -63,7 +68,12 @@ jobs:
     - name: Test lint
       continue-on-error: true
       run: |
-        pylint imapinboxrules/
+        pylint \
+          -r n \
+          --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" \
+          imapinboxrules/ \
+          tests/ \
+        | tee pylint-report.txt
 
     - name: Start IMAP server
       run: |
@@ -93,7 +103,7 @@ jobs:
 
     - name: Init IMAP server data
       run: |
-        python imapinboxrules/tests/init/setup.py
+        python tests/init/setup.py
 
     - name: Test app
       run: |
@@ -107,11 +117,11 @@ jobs:
       run: |
         kill $(cat imap-server.pid)
 
-    - uses: codecov/codecov-action@v1
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        files: ./coverage.xml
-        flags: unittests
-        name: github-action
-        fail_ci_if_error: false
-        verbose: true
+    - name: Fix coverge file for SonarCloud scanner
+      run: |
+        sed -i 's@'$GITHUB_WORKSPACE'@/github/workspace/@g' coverage.xml
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

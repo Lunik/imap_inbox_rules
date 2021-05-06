@@ -15,10 +15,11 @@ pytest: test_requirements
 				  --cov-branch \
 				  --cov-report term-missing \
 				  --cov-report html \
+				  --cov-report xml \
 				&& open htmlcov/index.html
 
 pylint:
-				pylint imapinboxrules/
+				pylint tests/ imapinboxrules/
 
 imap_server: start_imap_server init_imap_server
 

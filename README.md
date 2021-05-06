@@ -1,6 +1,9 @@
 # IMAP inbox Rules
 
-[![codecov](https://codecov.io/gh/Lunik/imap_inbox_rules/branch/master/graph/badge.svg?token=1OBCJMJ3IY)](https://codecov.io/gh/Lunik/imap_inbox_rules)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=imap_inbox_rules&metric=alert_status)](https://sonarcloud.io/dashboard?id=imap_inbox_rules)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=imap_inbox_rules&metric=coverage)](https://sonarcloud.io/dashboard?id=imap_inbox_rules)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=imap_inbox_rules&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=imap_inbox_rules)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=imap_inbox_rules&metric=security_rating)](https://sonarcloud.io/dashboard?id=imap_inbox_rules)
 [![CodeQL](https://github.com/Lunik/imap_inbox_rules/actions/workflows/codeql-analysis.yml/badge.svg?branch=master)](https://github.com/Lunik/imap_inbox_rules/actions/workflows/codeql-analysis.yml)
 [![Python CI](https://github.com/Lunik/imap_inbox_rules/actions/workflows/python-ci.yml/badge.svg?branch=master)](https://github.com/Lunik/imap_inbox_rules/actions/workflows/python-ci.yml)
 
@@ -10,10 +13,6 @@ Python tools to organize IMAP inbox
 
 [Documentation](documentation/)
 
-## Coverage
-
-[![codecov](https://codecov.io/gh/Lunik/imap_inbox_rules/branch/master/graphs/tree.svg?token=1OBCJMJ3IY)](https://codecov.io/gh/Lunik/imap_inbox_rules/branch/master)
-
 ## Built with
 
 [Python imaplib](https://docs.python.org/3/library/imaplib.html)
@@ -21,5 +20,5 @@ Python tools to organize IMAP inbox
 ## Tested with
 
 [GitHub action](https://fr.github.com/features/actions)
-[CodeCov](https://codecov.io)
+[SonarCloud](https://sonarcloud.io)
 [GreenMail](https://greenmail-mail-test.github.io/greenmail)

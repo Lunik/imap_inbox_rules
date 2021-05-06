@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## v0.2.0
+
+### Enhancements:
+- [Coverage] Replace CodeCov with SonarCloud
+- [SonarCloud] Add QA scan
+- [SonarCloud] Add coverage
+- [SonarCloud] Add vulnerability scan
+- [SonarCloud] Add quality gate
+- [SonarCloud] Improve code smell
+- [GitHub action] Disable some pipeline if there are no code modification
+
+### Bug fixes:
+- [CodeQL] Add autobuild step
+
+### Documentation:
+- [SonarCloud] Add badges
+- [CodeCov] Remove all references to the tool
+
 ## v0.1.0
 
 ### Enhancements:

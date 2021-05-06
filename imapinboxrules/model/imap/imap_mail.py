@@ -14,9 +14,6 @@ class ImapMail:
 
   email = None
 
-  def __init__(self):
-    pass
-
   @staticmethod
   def from_id(id):
 
@@ -44,15 +41,16 @@ class ImapMail:
     return email.header.make_header(email.header.decode_header(self.email[header]))
 
   @staticmethod
+  def _decode_playload(enc, data):
+    if enc == "base64":
+      return base64.b64decode(data)
+    elif enc == "quoted-printable":
+      return quopri.decodestring(data)
+
+    return b""
+
+  @staticmethod
   def __parse_body(emailobj, type="text/plain"):
-
-    def _decode_playload(enc, data):
-      if enc == "base64":
-        return base64.b64decode(data)
-      elif enc == "quoted-printable":
-        return quopri.decodestring(data)
-
-      return b""
 
     def _get_body(emailobj):
 
@@ -68,8 +66,8 @@ class ImapMail:
             charset = "UTF-8"
 
           if payload.get_content_type() == type:
-            print(_decode_playload(payload["Content-Transfer-Encoding"], body))
-            content.append(_decode_playload(payload["Content-Transfer-Encoding"], body).decode(charset))
+            print(ImapMail._decode_playload(payload["Content-Transfer-Encoding"], body))
+            content.append(ImapMail._decode_playload(payload["Content-Transfer-Encoding"], body).decode(charset))
       else:
         return emailobj.get_payload()
 

@@ -17,6 +17,9 @@ on:
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [ master, develop ]
+    paths-ignore:
+      - '**/*.md'
+      - '**/*.txt'
   schedule:
     - cron: '37 1 * * 4'
 
@@ -43,6 +46,9 @@ jobs:
       uses: github/codeql-action/init@v1
       with:
         languages: ${{ matrix.language }}
+
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v1
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
