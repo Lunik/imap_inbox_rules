@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## v0.3.0
+
+### Enhancements:
+- N/A
+
+### Bug fixes:
+- [GitHub Action] Fix workflow preventing merge commit
+
+### Documentation:
+- N/A
+
 ## v0.2.0
 
 ### Enhancements:
