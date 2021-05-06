@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## v0.2.1
+
+### Enhancements:
+- N/A
+
+### Bug fixes:
+- [GitHub Action] Fix workflow preventing merge commit
+- [GitHub Action] Enable CI when push on `master`
+
+### Documentation:
+- N/A
+
 ## v0.2.0
 
 ### Enhancements:

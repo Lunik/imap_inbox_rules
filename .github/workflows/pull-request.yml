@@ -37,4 +37,4 @@ jobs:
       - name: Check if not "Merge commit" are presents
         if: github.base_ref == 'master'
         run: |
-          test $(/usr/bin/git log --oneline "origin/${GITHUB_HEAD_REF}" \^"origin/${GITHUB_BASE_REF}" | grep "Merge branch .* into" | wc -l | xargs) -eq 0
+          test $(/usr/bin/git log --oneline "origin/${GITHUB_HEAD_REF}" \^"origin/${GITHUB_BASE_REF}" | grep "Merge .* branch" | wc -l | xargs) -eq 0
