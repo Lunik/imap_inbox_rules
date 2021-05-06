@@ -1,1 +1,1 @@
-from .ConnectorFactory import ConnectorFactory
+from .connector_factory import ConnectorFactory

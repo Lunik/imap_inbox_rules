@@ -1,1 +1,1 @@
-from .ImapConnector import ImapConnector
+from .imap_connector import ImapConnector
