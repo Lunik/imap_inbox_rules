@@ -14,6 +14,8 @@ class ImapMail:
 
   email = None
 
+  loaded = False
+
   @staticmethod
   def from_id(id):
 
@@ -33,6 +35,8 @@ class ImapMail:
   @require_connector
   def load(self):
     self.email = email.message_from_bytes(self.connector.fetch_mail(str(self.id), '(RFC822)'))
+
+    self.loaded = True
 
   def header(self, header):
     if self.email is None:
